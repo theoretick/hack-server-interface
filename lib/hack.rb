@@ -75,6 +75,15 @@ module Hack
       Hack::Handler::Thin
     end
 
+    class WebRick
+      # group inputs and instantiate a Webrick Server
+      def self.run(app, options = {})
+        server = ::WEBrick::HTTPServer.new(:Port => options[:port])
+        server.mount_proc('/') { app }
+        server.start
+      end
+    end
+
     # group inputs and instantiate a Thin Server
     # this could be even smaller as thin defaults to localhost:3000
     class Thin
